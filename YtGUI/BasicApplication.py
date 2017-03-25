@@ -1,4 +1,5 @@
 import tkinter as tk
+import YtGUI.DND.TkDND as tkDnd
 
 
 # from tkinter import *
@@ -41,6 +42,18 @@ class BasicApplication(tk.Frame):
 
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.root.destroy)
         self.quit.pack(side="bottom")
+
+        dnd = tkDnd.TkDND(self.root)
+
+        self.entry = tk.Entry()
+        self.entry.pack()
+
+        dnd.bindtarget(self.entry, self.drag_handle, 'text/uri-list')
+
+    def drag_handle(self, event):
+        event.widget.insert(0, event.data)
+
+        pass
 
     def on_button_click(self):
         print("on_button_click call!")
