@@ -1,11 +1,9 @@
 import tkinter as tk
-import YtGUI.DND.TkDND as tkDnd
 
-
-# from tkinter import *
 
 class BasicApplication(tk.Frame):
-    def __init__(self, root=None):
+    def __init__(self):
+        root=tk.Tk()
         self.root = root
         super().__init__(root)
         self.pack()
@@ -32,6 +30,12 @@ class BasicApplication(tk.Frame):
         # self.master.size(800, 600)
         # self.master.maxsize(1000, 400)
 
+        self.root.lift()
+        self.root.attributes("-topmost", True)
+        self.root.after_idle(self.root.attributes,'-topmost',False)
+        # self.root.attributes("-topmost", False)
+        # self.root.lift()
+
     def create_widgets(self):
         self.label = tk.Label(self, text='Label')
         self.label.pack()
@@ -43,25 +47,12 @@ class BasicApplication(tk.Frame):
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.root.destroy)
         self.quit.pack(side="bottom")
 
-        dnd = tkDnd.TkDND(self.root)
-
-        self.entry = tk.Entry()
-        self.entry.pack()
-
-        dnd.bindtarget(self.entry, self.drag_handle, 'text/uri-list')
-
-    def drag_handle(self, event):
-        event.widget.insert(0, event.data)
-
-        pass
-
     def on_button_click(self):
         print("on_button_click call!")
 
 
 if __name__ == '__main__':
-    app = BasicApplication(root=tk.Tk())
-    app.root.attributes("-topmost", True)
+    app = BasicApplication()
     app.mainloop()
 
     pass
