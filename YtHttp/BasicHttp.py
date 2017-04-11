@@ -29,9 +29,22 @@ def post(req, data):
     return res_str
 
 
+def url_encode(content):
+    return urllib.parse.quote_plus(content)
+
+
+def url_decode(content):
+    return urllib.parse.unquote(content)
+
+
 def get(req):
     return post(req, None)
 
 
 if __name__ == '__main__':
-    get(common_request_maker('http://www.ytinrete.com'))
+    # get(common_request_maker('http://www.ytinrete.com'))
+
+    print(url_decode('%3D'))
+    print(url_encode('='))
+
+    pass
