@@ -33,10 +33,40 @@ def write_file(path):
         f.write('233')
 
 
+def iterate_folder(path):
+    for root, dirs, files in os.walk(path):
+        for name in files:
+            print('root:' + root + ' ' + 'name:' + name)
+
+
+def list_sub_files(path):
+    for file_name in os.listdir(path):
+        full_path = os.path.join(path, file_name)
+        stat_info = os.stat(full_path)
+        print(full_path + ' size:' + convert_bytes(stat_info.st_size) + ' isFolder:' + str(os.path.isdir(full_path)))
+
+
+def convert_bytes(num):
+    """
+    this function will convert bytes to MB.... GB... etc
+    """
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if num < 1024.0:
+            return "%3.1f %s" % (num, x)
+        num /= 1024.0
+
+
+def get_parent_folder(path):
+    return os.path.abspath(os.path.join(path, os.pardir))
+
+
 if __name__ == '__main__':
     # make_dir('test/test2/test3')
     # del_dir('test')
 
     # write_file('test/test2/test3/test.txt')
     # read_file('test/test2/test3/test.txt')
+    # list_sub_files('.')
+    print(get_parent_folder('./..'))
+
     pass

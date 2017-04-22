@@ -1,6 +1,7 @@
 import urllib.request
 import urllib.parse
 import urllib.error
+import base64
 
 
 def common_request_maker(path):
@@ -43,6 +44,11 @@ def get(req):
 
 if __name__ == '__main__':
     # get(common_request_maker('http://www.ytinrete.com'))
+
+    encoded = str(base64.b64encode(bytes('data to be encoded', encoding='utf-8')), encoding='utf-8')
+    print(encoded)
+    data = str(base64.b64decode(encoded), encoding='utf-8')
+    print(data)
 
     print(url_decode('%3D'))
     print(url_encode('='))
