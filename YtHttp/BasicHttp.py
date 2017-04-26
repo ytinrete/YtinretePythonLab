@@ -31,7 +31,7 @@ def post(req, data):
 
 
 def url_encode(content):
-    return urllib.parse.quote_plus(content)
+    return urllib.parse.quote(content)
 
 
 def url_decode(content):
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     data = str(base64.b64decode(encoded), encoding='utf-8')
     print(data)
 
-    print(url_decode('%3D'))
-    print(url_encode('='))
+    print(url_decode('%20'))
+    print(url_encode(' '))
 
     pass
