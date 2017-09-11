@@ -57,10 +57,10 @@ def read_xls():
 
 
 if __name__ == '__main__':
-    # cvs_list, name = read_csv()
-    #
-    # for item in cvs_list:
-    #     print(item)
+    cvs_list, name = read_csv()
+
+    for item in cvs_list:
+        print(item)
 
     read_xlsx()
 
