@@ -17,6 +17,16 @@ def write(obj):
     return str
 
 
+def write_to_file(file, obj):
+    with open(file, "w", encoding="utf-8") as f:
+        f.write(json.dumps(obj))
+
+
+def load_from_file(file):
+    with open(file, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 if __name__ == '__main__':
     str = '{"foo":"test", "bar":"123"}'
     write(read(str))
