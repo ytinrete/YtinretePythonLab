@@ -1,10 +1,11 @@
-
 import csv
 from openpyxl import load_workbook
+from openpyxl import Workbook
 import xlrd
 
-#pip3 install openpyxl
-#pip3 install xlrd
+
+# pip3 install openpyxl
+# pip3 install xlrd
 
 def read_csv():
     try:
@@ -47,6 +48,56 @@ def read_xlsx():
     sheet_ranges = wb['工作表1']
     print(sheet_ranges['A2'].value)
     pass
+
+
+def read_xlsx_loop(f, sheet_name, f_name, c_name):
+    res = []
+    wb = load_workbook(filename=f)
+    for s in wb:
+        if sheet_name is None or s.title.startswith(sheet_name):
+            for row in s.rows:
+                for cell in row:
+                    # print(cell.value)
+                    if str(cell.column) == c_name:
+                        if type(cell.value) == str and str(cell.value).strip().startswith("C"):
+                            new_block = {
+                                "f_name": f_name,
+                                "s_name": s.title,
+                                "pos": str("[" + str(cell.column) + str(cell.row) + "]"),
+                                "target": str(cell.value).strip()
+                            }
+                            res.append(new_block)
+                        else:
+                            if type(cell.value) == str:
+                                print("strange rec:" + str(cell.value) + " s:" + s.title + str(
+                                    "[" + str(cell.column) + str(cell.row) + "]"))
+                            else:
+                                if type(cell.value) == int:
+                                    print("strange rec:" + str(cell.value) + " s:" + s.title + str(
+                                        "[" + str(cell.column) + str(cell.row) + "]"))
+
+    return res
+
+
+def write_to_xlsx(f1_name, f2_name, same):
+    wb = Workbook()
+    ws = wb.active
+    for i in range(0, len(same) - 1):
+        item = same[i]
+        index = i + 1
+        if index == 1:
+            ws.cell(row=index, column=1).value = "target"
+            ws.cell(row=index, column=2).value = "pos A"
+            ws.cell(row=index, column=3).value = "pos B"
+            ws.cell(row=index, column=4).value = "count:" + str(len(same))
+        else:
+            ws.cell(row=index, column=1).value = item["A"]["target"]
+            ws.cell(row=index, column=2).value = \
+                "file[" + item["A"]["f_name"] + "]sheet[" + item["A"]["s_name"] + "]pos" + item["A"]["pos"]
+            ws.cell(row=index, column=3).value = \
+                "file[" + item["B"]["f_name"] + "]sheet[" + item["B"]["s_name"] + "]pos" + item["B"]["pos"]
+    wb.save(str("compare_excel/" + f1_name + "and" + f2_name + "equal.xlsx"))
+
 
 def read_xls():
     wb = xlrd.open_workbook('../TestFile/Excel/Test.xls')
