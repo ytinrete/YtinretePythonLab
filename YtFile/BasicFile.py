@@ -1,5 +1,6 @@
 import shutil
 import os
+import ntpath
 
 
 def copy_folder(from_path, to_path):
@@ -58,6 +59,10 @@ def convert_bytes(num):
 
 def get_parent_folder(path):
     return os.path.abspath(os.path.join(path, os.pardir))
+
+
+def get_file_name(path):
+    return ntpath.basename(path)
 
 
 if __name__ == '__main__':
